@@ -8,7 +8,7 @@ class V1::HospitalsController < ApplicationController
     render json: {status:"SUCCESS", message:'Loaded hospital', data:hospital},status: :ok
   end
   def create
-    hospital =  Hospital.new(contactstype_params);
+    hospital =  Hospital.new(hospital_params);
     begin
       if hospital.save
         render json: {status:"SUCCESS", message:'added hospital', data:hospital},status: :ok
@@ -18,7 +18,7 @@ class V1::HospitalsController < ApplicationController
       end
       rescue ActiveRecord::RecordNotUnique
             render json: {status:"ERROR", message:'hospital not added',
-              data:'type alredy exist'},status: :unprocessable_entity
+              data:'code already exist'},status: :unprocessable_entity
     end
   end
 
@@ -29,13 +29,13 @@ class V1::HospitalsController < ApplicationController
       render json: {status:"SUCCESS", message:'hospital is destroyed', data:hospital},status: :ok
     rescue ActiveRecord::RecordNotFound
           render json: {status:"ERROR", message:'hospital not destroyed',
-            data:'type not exist'},status: :unprocessable_entity
+            data:'hospital not exist'},status: :unprocessable_entity
     end
   end
   def update
     begin
       hospital =  Hospital.find(params[:id]);
-      if contactstype.update(hospital_params)
+      if hospital.update(hospital_params)
         render json: {status:"SUCCESS", message:'hospital is updated', data:hospital},status: :ok
       else
         render json: {status:"ERROR", message:'hospital is not updated',
@@ -43,7 +43,7 @@ class V1::HospitalsController < ApplicationController
       end
     rescue ActiveRecord::RecordNotFound
         render json: {status:"ERROR", message:'hospital not updated',
-          data:'type not exist'},status: :unprocessable_entity
+          data:'hospital not exist'}, status: :unprocessable_entity
     rescue  ActiveRecord::RecordNotUnique
             render json: {status:"ERROR", message:'hospital not updated',
               data:'updated hospital has not unique code'},status: :unprocessable_entity
@@ -52,6 +52,6 @@ class V1::HospitalsController < ApplicationController
 
   private
   def  hospital_params
-    params.permit(:name, :code, :shortname)
+    params.permit(:name, :code, :shortname, :boss, :po_code, :address)
   end
 end

@@ -7,18 +7,15 @@ class ApplicationController < ActionController::Base
     def authorize_request
         header = request.headers['Authorization']
         header = header.split(' ').last if header
-        begin             
+        begin
           @decoded = JsonWebToken.decode(header)
-          puts '@decoded', @decoded
-          @session ||= Session.find_by(token: header)
-          if @session == nil
-            render json: { errors: "unauthorized" }, status: :unauthorized
-          else  
-            @current_user = @session.user
-          end  
-        rescue ActiveRecord::RecordNotFound => e
-          render json: { errors: e.message }, status: :unauthorized
+          unless SessionList.instance.exist(header)
+            render json: { errors: "unauthorized" }, status: :unauthorized          
+          end        
         rescue JWT::DecodeError => e
+          if SessionList.instance.exist(header)
+            SessionList.instance.remove(header)
+          end    
           render json: { errors: e.message }, status: :unauthorized
         end
     end

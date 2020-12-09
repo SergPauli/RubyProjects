@@ -2,12 +2,12 @@ class AuthenticationController < ApplicationController
     before_action :authorize_request, except: :login
 
   # POST /auth/login
-  def login    
+  def login 
     @user = User.find_by_username(params[:username])
     if @user&.authenticate(params[:password])
       token = JsonWebToken.encode(user_id: @user.id)
       time = Time.now + 24.hours.to_i
-      SessionList.instance.add(token)       
+      SessionList.instance.add(token) 
       render json: { token: token, exp: time.strftime("%m-%d-%Y %H:%M"),
                username: @user.username }, status: :ok                   
     else      
@@ -15,7 +15,7 @@ class AuthenticationController < ApplicationController
     end
   end
    # GET /auth/logout
-   def logout  
+   def logout    
     header = request.headers['Authorization']
     header = header.split(' ').last if header  
     if SessionList.instance.exst(header)

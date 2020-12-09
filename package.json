@@ -1,11 +1,42 @@
 {
   "name": "medss",
+  "scripts": {
+    "dev_server": "rails server -e development -p 5000",
+    "prod_server": "rails server -e production -p 5000",
+    "client": "npm run start --prefix client",
+    "dev": "concurrently \"npm run dev_server\" \"npm run start --prefix client\""
+  },
   "private": true,
   "dependencies": {
-    "@rails/ujs": "^6.0.0",
-    "turbolinks": "^5.2.0",
+    "@rails/actioncable": "^6.0.0",
     "@rails/activestorage": "^6.0.0",
-    "@rails/actioncable": "^6.0.0"
+    "@rails/ujs": "^6.0.0",
+    "turbolinks": "^5.2.0"
   },
-  "version": "0.1.0"
+  "version": "0.1.0",
+  "description": "This README would normally document whatever steps are necessary to get the application up and running.",
+  "main": "/client/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "devDependencies": {
+    "concurrently": "^5.3.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SergPauli/RubyProjects.git"
+  },
+  "keywords": [
+    "Ruby",
+    "JS",
+    "React",
+    "Node"
+  ],
+  "author": "SergePauli <sergepauli@ya.ru>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SergPauli/RubyProjects/issues"
+  },
+  "homepage": "https://github.com/SergPauli/RubyProjects#readme"
 }

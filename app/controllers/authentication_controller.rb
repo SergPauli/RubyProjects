@@ -9,7 +9,8 @@ class AuthenticationController < ApplicationController
       time = Time.now + 24.hours.to_i
       SessionList.instance.add(token) 
       render json: { token: token, exp: time.strftime("%m-%d-%Y %H:%M"),
-               username: @user.username }, status: :ok                   
+          user_id: @user.id, name: @user.name,
+          hospital_id: @user.hospital_id, hospital_name: @user.hospital.shortname}, status: :ok                   
     else      
       render json: { error: 'unauthorized' }, status: :unauthorized            
     end

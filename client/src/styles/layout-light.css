@@ -473,6 +473,10 @@ a {
   font-size: 1.25rem;
 }
 
+.layout-breadcrumb.viewname {
+  text-transform: uppercase;
+}
+
 .layout-topbar .topbar-menu {
   margin: 0;
   padding: 0;
@@ -2271,9 +2275,8 @@ a {
 
 @media (min-width: 993px) {
   .login-body .login-wrapper .login-image {
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-image: url(".././images/bg-login.jpg");
+    background: #303F9F;    
+    background-image: linear-gradient(180deg, #303F9F 10%, #283593 100%);
   }
 }
 

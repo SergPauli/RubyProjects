@@ -5,18 +5,23 @@ import {
   Route,
   Redirect,
 } from "react-router-dom"
-import MainPage from "./pages/MainPage"
 import WrappedLoginPage from "./pages/LoginPage";
 import ListPage from "./pages/ListPage"
 import {connect} from "react-redux" 
+import WrappedMainPage from "./pages/MainPage";
+import { useMediaQuery } from "react-responsive"
+import { bindActionCreators } from "redux";
+import { actionSetMediaScrine } from "./redux/action";
 
-const Routes = ({isAuthenicated}) => {
+const Routes = ({ isAuthenicated, actionSetMediaScrine }) => {
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 991px)" })
+  actionSetMediaScrine(isTabletOrMobile)
   if (isAuthenicated) {
     return (
       <Router>
         <Switch>
           <Route path="/main" exact>
-            <MainPage />
+            <WrappedMainPage  />
           </Route>
           <Route path="/list" exact>
             <ListPage />
@@ -24,7 +29,7 @@ const Routes = ({isAuthenicated}) => {
           <Redirect to="/main" />
         </Switch>
       </Router>
-    );
+    )
   } else {
     return (
       <Router>
@@ -33,10 +38,14 @@ const Routes = ({isAuthenicated}) => {
           <Redirect to="/" />
         </Switch>
       </Router>
-    );
+    )
   }
 }
 const mapStateToProps = state =>{
   return { isAuthenicated: state.auth != null };
 }
-export default connect(mapStateToProps, null)(Routes)
+
+const mapActionToProps = (dispatch) => {
+  return { actionSetMediaScrine: bindActionCreators(actionSetMediaScrine, dispatch) }
+}
+export default connect(mapStateToProps, mapActionToProps)(Routes)

@@ -28,11 +28,31 @@ export class LayoutSideBar extends Component {
               </div>
               <ul className="layout-menu" role="menu">
                 <li role="menuitem">
-                  <a className="p-ripple" href="#/">
+                  <a className="p-ripple" href="/">
                     <i className="layout-menuitem-icon pi pi-fw pi-home"></i>
                     <span className="layout-menuitem-text">Главная</span>
                   </a>
                 </li>
+              </ul>
+            </li>
+            <li class="layout-root-menuitem" role="menuitem">
+              <button type="button" class="p-ripple p-link">
+                <i class="layout-menuitem-icon pi pi-fw pi-id-card"></i>
+                <span class="layout-menuitem-text">Операции</span>
+                <i class="pi pi-fw pi-angle-down layout-submenu-toggler"></i>
+              </button>
+              <div class="layout-root-menuitem">
+                <div class="layout-menuitem-root-text" style={{ textTransform: "uppercase" }}>
+                  Операции
+                </div>
+              </div>
+              <ul class="layout-menu" role="menu">                
+                <li class="" role="menuitem">
+                  <a class="p-ripple active-route" href="/list" aria-current="page">
+                    <i class="layout-menuitem-icon pi pi-fw pi-list"></i>
+                    <span class="layout-menuitem-text">Список</span>
+                  </a>
+                </li>                
               </ul>
             </li>
           </ul>

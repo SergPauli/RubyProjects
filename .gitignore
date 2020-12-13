@@ -56,3 +56,4 @@ yarn-debug.log*
 /client/.env.production.local
 
 /client/npm-debug.log*
+/client/.eslintcache

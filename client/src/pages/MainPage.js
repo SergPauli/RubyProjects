@@ -5,6 +5,6 @@ const content = (
     <h1>MainPage</h1>
   </div>
 )
-export default function ListPage() {
+export default function MainPage() {
   return <WrappedLayout title="Главная" content={content} />
 }

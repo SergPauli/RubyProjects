@@ -20,5 +20,4 @@ class SessionList
            false     
         end         
     end
-
 end    

@@ -2,13 +2,13 @@
 
 const { Component } = require("react")
 
+
 class MenuItem extends Component {
   constructor(props) {
     super(props)
     this.menuClassName = props.menuClassName
     this.isfadeInDown = this.props.data.isfadeInDown
-    this.state = { active: "" }
-    this.key = props.key 
+    this.state = { active: "" }    
     this.itemOnClick = this.itemOnClick.bind(this)
     this.setWrapperRef = this.setWrapperRef.bind(this)
     this.handleClickOutside = this.handleClickOutside.bind(this)
@@ -44,17 +44,18 @@ class MenuItem extends Component {
     })
   }
   render() {
-    const { buttonLabel, buttonChildNode, ChildLiList } = this.props.data
-
+    const { buttonLabel, buttonChildNode, ChildLiList} = this.props.data    
     const liClassList = `${this.menuClassName}-item${this.state.active}`
     const ulClassList = `${this.menuClassName}-menu fade-in-up`
     return (
-      <li className={liClassList} ref={this.setWrapperRef} key={this.key}>
-        <button type="button" className="p-link" onClick={this.itemOnClick}>
+      <li className={liClassList} ref={this.setWrapperRef} key='l010'>
+        <button type='button' className='p-link' onClick={this.itemOnClick}>
           {buttonChildNode}
           {buttonLabel}
         </button>
-        <ul className={ulClassList}>{ChildLiList}</ul>
+        <ul className={ulClassList} key='u020'>
+          {ChildLiList}
+        </ul>
       </li>
     )
   }

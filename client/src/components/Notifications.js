@@ -2,7 +2,7 @@
 import { connect } from "react-redux"
 import BaseMenuItems from "./BaseMenuItems"
 import MenuItem from "./MenuItem"
-
+ 
 
 class Notifications extends BaseMenuItems {
   constructor(props) {
@@ -13,10 +13,14 @@ class Notifications extends BaseMenuItems {
 
   getButtonBody(icon, label, options) {
     return [
-      <i className={icon}></i>,
-      <div className={this.itemClass + "-item"}>
-        <div className={this.itemClass + "-summary"}>{label}</div>
-        <div className={this.itemClass + "-detail"}>{options.detail}</div>
+      <i key='775' className={icon}></i>,
+      <div key='776' className={this.itemClass + "-item"}>
+        <div key='777' className={this.itemClass + "-summary"}>
+          {label}
+        </div>
+        <div key='778'  className={this.itemClass + "-detail"}>
+          {options.detail}
+        </div>
       </div>,
     ]
   }
@@ -24,27 +28,25 @@ class Notifications extends BaseMenuItems {
   render() {
     const dataList = {
       isfadeInDown: false,
-      buttonLabel: <span className="topbar-badge">5</span>,
-      buttonChildNode: <i className="pi pi-bell"></i>,
+      buttonLabel: <span className='topbar-badge'>5</span>,
+      buttonChildNode: <i key='075' className='pi pi-bell'></i>,
       ChildLiList: [
         this.createMenuLi(
           "pi pi-check-square",
           "Готовность",
-          { detail: [<strong>2</strong>, " не отправленных"] },
-          true,
-          "notCo3689"
+          { detail: [<strong key='1'>2</strong>, " не отправленных"] },
+          true
         ),
         this.createMenuLi(
           "pi pi-plus-circle",
           "Новые",
-          { detail: ["Добавлено ", <strong>3</strong>, "  свид"] },
-          false,
-          "newIt589"
+          { detai: ["Добавлено ", <strong key='2'>3</strong>, "  свид"] },
+          false
         ),
-        this.createMenuLi("pi pi-comments", "Комменты", { detail: ["новых ", <strong>2</strong>] }, false, "comments"),
+        this.createMenuLi("pi pi-comments", "Комменты", { detail: ["новых ", <strong key='3'>2</strong>] }, false),
       ],
     }
-    return <MenuItem data={dataList} menuClassName={this.menuClass} />
+    return <MenuItem data={dataList} menuClassName={this.menuClass} key='N01' />
   }
 }
 

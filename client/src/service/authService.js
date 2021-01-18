@@ -1,5 +1,4 @@
 import axios from "axios"
-
 export class AuthService {
   login(username, password) {
     return axios
@@ -8,16 +7,17 @@ export class AuthService {
         password: password,
       })
       .then((response) => response.data)
-      .catch((error) => {throw error }) 
-          
+      .catch((error) => {
+        throw error
+      })
   }
   logout(token) {
     return axios
       .get("/auth/logout", { Authorization: token })
-      .then((response) => response.data)
+      .then((response) =>response.data)
       .catch((error) => {
-        throw error;
-      });
+        throw error
+      })
   }
 }
 

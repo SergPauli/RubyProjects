@@ -1,10 +1,11 @@
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
+import { connect} from "react-redux"
+import { bindActionCreators} from "redux"
 import ava from "../images/ava.png"
-import { actionLogout } from "../redux/action"
+import { actionLogout, actionPutMessage, actionSetLoading } from "../redux/action"
 import { AuthService } from "../service/authService"
 import BaseMenuItems from "./BaseMenuItems"
 import MenuItem from "./MenuItem"
+
 
 class ProfileMenuItem extends BaseMenuItems {
   constructor(props) {
@@ -15,10 +16,18 @@ class ProfileMenuItem extends BaseMenuItems {
   }
 
   logout() {
-    const { actionLogout } = this.props
-    this.authService.logout().then((data) => {
-      actionLogout()
-    })
+     const { actionPutMessage, actionLogout, token, actionSetLoading } = this.props 
+     actionSetLoading()      
+     this.authService.logout(token).then((data) => {
+      actionPutMessage({
+        severity: "success",
+        summary: "Сеанс завершен",
+        detail: data.message,
+      })
+      actionLogout(token)
+      actionSetLoading()
+                           
+    }) 
   }
 
   render() {
@@ -28,22 +37,27 @@ class ProfileMenuItem extends BaseMenuItems {
         buttonLabel:  (isTabletOrMobile)? "" : username,
         buttonChildNode: <img src={ava} alt="diamond-layout" className="profile-image" />,
         ChildLiList: [
-          this.createMenuLi("pi pi-user", "Профиль", {}, true, "prof8956"),
-          this.createMenuLi("pi pi-cog", "Настройки", {}, false, "set333"),
-          this.createMenuLi("pi pi-inbox", "Сообщения", {}, false, "inBox"),
-          this.createMenuLi("pi pi-power-off", "Выход", { onClick: this.logout }, false, "logout"),
+          this.createMenuLi("pi pi-user", "Профиль", {}, true, "p88"),
+          this.createMenuLi("pi pi-cog", "Настройки", {}, false, "s737"),
+          this.createMenuLi("pi pi-inbox", "Сообщения", {}, false, "i789"),
+          this.createMenuLi("pi pi-power-off", "Выход", {onClick: this.logout}, false, "l789"),
         ],
       }
-    return <MenuItem data={dataList} menuClassName={this.menuClass} />
+    return <MenuItem data={dataList} menuClassName={this.menuClass} key='P01' />
   }
 }
 const mapActionToProps = (dispatch) => {
-  return { actionLogout: bindActionCreators(actionLogout, dispatch) }
+  return {
+    actionLogout: bindActionCreators(actionLogout, dispatch),
+    actionPutMessage: bindActionCreators(actionPutMessage, dispatch),
+    actionSetLoading: bindActionCreators(actionSetLoading, dispatch),
+  }
 }
 
 const mapStateToProps = (state) => {
   return {
     username: state.auth.name,
+    token: state.auth.token,
     isTabletOrMobile: state.layout.isTabletOrMobile
   }
 }

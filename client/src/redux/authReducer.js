@@ -8,9 +8,10 @@ const getStateFromCookies = () =>{
 } 
 
 export const authReducer = (state = getStateFromCookies(), action) => {
-  console.log('authReducer')
+  //console.log('authReducer')
   switch (action.type) {
-    case ACTION_LOGIN:       
+    case ACTION_LOGIN: 
+      cookies.set("auth", action.payload)      
       return action.payload
     case ACTION_LOGOUT:
         cookies.remove("auth"); 

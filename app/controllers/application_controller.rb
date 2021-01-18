@@ -7,8 +7,10 @@ class ApplicationController < ActionController::Base
     def authorize_request
         header = request.headers['Authorization']
         header = header.split(' ').last if header
+        puts 'header '+header
         begin
           @decoded = JsonWebToken.decode(header)
+          puts 'decoded '+@decoded.to_json()
           unless SessionList.instance.exist(header)
             render json: { errors: "unauthorized" }, status: :unauthorized          
           end        

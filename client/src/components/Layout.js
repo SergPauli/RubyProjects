@@ -18,7 +18,7 @@ export class Layout extends Component {
     actionSideBarToggle(!isLayoutStaticInactive)
   }
   componentDidMount() {
-    document.title = "МедСС:" + this.title
+    document.title = "МедСС: " + this.title
     this.showMessage()
   }
   showMessage() { 

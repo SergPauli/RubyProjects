@@ -7,7 +7,7 @@ import { AuthService } from '../service/authService'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Toast } from "primereact/toast"
-import { actionLogin, actionPutMessage, actionClearStatus } from "../redux/action"
+import { actionLogin, actionPutMessage, actionClearStatus, actionSetLoading } from "../redux/action"
 
 class LoginPage extends Component {
   constructor(props) {
@@ -18,6 +18,7 @@ class LoginPage extends Component {
     this.login = this.login.bind(this)
   }
   componentDidMount() {
+    document.title = "МедСС: Вход в систему"
     const { actionClearStatus, message } = this.props       
     if (message) {
       this.toast.show(message)
@@ -32,7 +33,8 @@ class LoginPage extends Component {
     })
   }
   login() {
-    const { actionLogin, actionPutMessage } = this.props
+    const { actionLogin, actionPutMessage, actionSetLoading } = this.props
+    actionSetLoading()
     this.authService
       .login(this.state.username, this.state.password)
       .then((data) => {
@@ -42,20 +44,23 @@ class LoginPage extends Component {
           summary: "Выполнен вход в систему",
           detail: data.name + " : " + data.hospital_name,
         })
+        actionSetLoading()
       })
       .catch((error) => {
         this.showError(error.message.indexOf("401") === -1 ? error.message : "учетные данные неверны")
         error = undefined
+        actionSetLoading()
       })
   }
   render() {
+    const { isLoading } = this.props
     return (
       <div className='login-body'>
         <Toast ref={(el) => (this.toast = el)}></Toast>
         <div className='login-wrapper'>
           <div className='login-panel'>
             <img src={logo} className='logo' alt='medstatpicture' />
-            <div className='login-form'>
+            <div className='login-form' style={{ display: isLoading ? "none" : "" }}>
               <h2>Вход в систему</h2>
               <p>
                 Не зарегистрированы?<a href='/'>Оставить заявку</a>
@@ -78,6 +83,24 @@ class LoginPage extends Component {
               <button type='button' className='p-button p-component' onClick={this.login}>
                 <span className='p-button-label p-c'>ВОЙТИ</span>
               </button>
+            </div>
+            <div
+              className='p-progress-spinner login-form'
+              role='alert'
+              aria-busy='true'
+              style={{ display: isLoading ? "" : "none" }}
+            >
+              <svg className='p-progress-spinner-svg' viewBox='25 25 50 50' style={{ animationDuration: "2s;" }}>
+                <circle
+                  className='p-progress-spinner-circle'
+                  cx='50'
+                  cy='50'
+                  r='20'
+                  fill='none'
+                  stroke-width='2'
+                  stroke-miterlimit='10'
+                ></circle>
+              </svg>
             </div>
             <p>
               Есть проблемы?<a href='/'>Кликнуть здесь</a> для поддержки.
@@ -109,13 +132,16 @@ class LoginPage extends Component {
 }
 
  
-const mapStateToProps = state => {console.log(state); return { message: state.message, isLoading: state.layout.isLoading }}  
+const mapStateToProps = state => { 
+  return { message: state.message, isLoading: state.layout.isLoading }
+}  
 
 const mapActionToProps = (dispatch) => {
    return {
      actionLogin: bindActionCreators(actionLogin, dispatch),
      actionPutMessage: bindActionCreators(actionPutMessage, dispatch),
-     actionClearStatus: bindActionCreators(actionClearStatus, dispatch)
+     actionClearStatus: bindActionCreators(actionClearStatus, dispatch),
+     actionSetLoading: bindActionCreators(actionSetLoading, dispatch),
    } 
 }
 

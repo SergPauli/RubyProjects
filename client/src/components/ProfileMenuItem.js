@@ -18,15 +18,23 @@ class ProfileMenuItem extends BaseMenuItems {
   logout() {
      const { actionPutMessage, actionLogout, token, actionSetLoading } = this.props 
      actionSetLoading()      
-     this.authService.logout(token).then((data) => {
+     this.authService.logout(token).then((data) => {      
       actionPutMessage({
         severity: "success",
         summary: "Сеанс завершен",
         detail: data.message,
       })
       actionLogout(token)
+      actionSetLoading()                           
+    })
+    .catch(error=>{
+      actionPutMessage({
+        severity: "error",
+        summary: "Ошибка",
+        detail: error.message,
+      })
+      actionLogout(token)
       actionSetLoading()
-                           
     }) 
   }
 

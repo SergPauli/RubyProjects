@@ -7,17 +7,15 @@ class ApplicationController < ActionController::Base
     def authorize_request
         header = request.headers['Authorization']
         header = header.split(' ').last if header        
-        begin
-          @decoded = JsonWebToken.decode(header)
-          puts @decoded.to_json()
+        begin          
           unless SessionList.instance.exist(header)
             render json: { error: "unauthorized" }, status: :unauthorized          
-          end        
-        rescue JWT::DecodeError => e
-          if SessionList.instance.exist(header)
-            SessionList.instance.remove(header)
-          end    
-          render json: { message: e.message }, status: :unauthorized
+          end
+          @decoded = JsonWebToken.decode(header)
+          puts @decoded.to_json()        
+        rescue JWT::DecodeError => e          
+          SessionList.instance.remove(header)
+          render json: { message: e.message }, status: :request_timeout       
         end
     end
 end

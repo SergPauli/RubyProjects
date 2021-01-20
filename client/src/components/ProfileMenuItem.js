@@ -39,16 +39,22 @@ class ProfileMenuItem extends BaseMenuItems {
   }
 
   render() {
-    const { username, isTabletOrMobile } = this.props   
+    const { username, hospitalName, isTabletOrMobile } = this.props   
       const dataList = {
         isfadeInDown: true,
-        buttonLabel:  (isTabletOrMobile)? "" : username,
-        buttonChildNode: <img src={ava} alt="diamond-layout" className="profile-image" />,
+        buttonLabel: isTabletOrMobile
+          ? ""
+          : (<div style={{ textAlign: "left", lineHeight: "1.5rem" }}>
+                <div>{hospitalName}</div>
+                <div style={{ fontWeight: "normal" }}> {username}</div>
+              </div>),
+            
+        buttonChildNode: <img src={ava} alt='diamond-layout' className='profile-image' />,
         ChildLiList: [
           this.createMenuLi("pi pi-user", "Профиль", {}, true, "p88"),
           this.createMenuLi("pi pi-cog", "Настройки", {}, false, "s737"),
           this.createMenuLi("pi pi-inbox", "Сообщения", {}, false, "i789"),
-          this.createMenuLi("pi pi-power-off", "Выход", {onClick: this.logout}, false, "l789"),
+          this.createMenuLi("pi pi-power-off", "Выход", { onClick: this.logout }, false, "l789"),
         ],
       }
     return <MenuItem data={dataList} menuClassName={this.menuClass} key='P01' />
@@ -65,6 +71,7 @@ const mapActionToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   return {
     username: state.auth.name,
+    hospitalName: state.auth.hospital_name,
     token: state.auth.token,
     isTabletOrMobile: state.layout.isTabletOrMobile
   }

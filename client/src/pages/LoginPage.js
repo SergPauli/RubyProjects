@@ -47,8 +47,8 @@ class LoginPage extends Component {
         actionSetLoading()
       })
       .catch((error) => {
-        this.showError(error.message.indexOf("401") === -1 ? error.message : "учетные данные неверны")
-        error = undefined
+        if (error.message.includes("406")) this.showError("Доступ запрещен")     
+        else this.showError( error.message )                   
         actionSetLoading()
       })
   }

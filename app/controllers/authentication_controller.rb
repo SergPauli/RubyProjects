@@ -12,21 +12,16 @@ class AuthenticationController < ApplicationController
           user_id: @user.id, name: @user.name,
           hospital_id: @user.hospital_id, hospital_name: @user.hospital.shortname}, status: :ok                   
     else      
-      render json: { error: 'unauthorized' }, status: :unauthorized            
+      render json: { error: 'not_acceptable' }, status: :not_acceptable           
     end
   end
-   # GET /auth/logout
-   def logout    
+  # GET /auth/logout
+  def logout    
     header = request.headers['Authorization']
-    header = header.split(' ').last if header  
-    if SessionList.instance.exst(header)
-       SessionList.instance.remove(header)
-        render json: {message: 'session destroyed'}, status: :ok
-    else    
-        render json: {error: 'session not found',
-            data:session.errors}, status: 500
-    end       
-   end 
+    header = header.split(' ').last if header   
+    SessionList.instance.remove(header)
+    render json: {message: 'session destroyed'}, status: :ok  
+  end 
 
   private
 

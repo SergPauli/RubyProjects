@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  klass: 
+  gruppa: MyString
+  String: MyString
+  rubrica: 
+  podrubrica: 
+  code: 
+  name: 
+  description: 
+
+two:
+  klass: 
+  gruppa: MyString
+  String: MyString
+  rubrica: 
+  podrubrica: 
+  code: 
+  name: 
+  description: 

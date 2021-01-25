@@ -10,7 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_30_052710) do
+ActiveRecord::Schema.define(version: 2021_01_24_044228) do
+
+  create_table "diagnoses", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "klass", limit: 2
+    t.string "gruppa", limit: 2
+    t.string "rubrica", limit: 2
+    t.string "podrubrica", limit: 2
+    t.string "code", limit: 10
+    t.string "name"
+    t.string "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "h1s", primary_key: "code", id: :integer, limit: 1, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "hospitals", id: :integer, limit: 1, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "code", limit: 6, null: false
@@ -24,20 +42,19 @@ ActiveRecord::Schema.define(version: 2020_11_30_052710) do
     t.index ["code"], name: "index_hospitals_on_code", unique: true
   end
 
-  create_table "sessions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "token"
-    t.bigint "user_id"
+  create_table "synonyms", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.bigint "diagnosis_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["token"], name: "index_sessions_on_token"
-    t.index ["user_id"], name: "index_sessions_on_user_id"
+    t.index ["diagnosis_id"], name: "index_synonyms_on_diagnosis_id"
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", limit: 100
     t.string "username", limit: 100, null: false
     t.string "email", limit: 70
-    t.string "password_digest", limit: 45
+    t.string "password_digest"
     t.bigint "hospital_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

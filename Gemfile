@@ -27,7 +27,8 @@ gem 'bcrypt', '~> 3.1.7'
 
 #enables the creation of both simple and advanced search forms for your Ruby on Rails application 
 gem 'ransack'
-
+# библиотека для взаимодействия с REST-сервисами
+gem  'rest-client'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
 

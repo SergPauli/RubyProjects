@@ -10,7 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_24_044228) do
+ActiveRecord::Schema.define(version: 2021_03_04_063009) do
+
+  create_table "addresses", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "state", limit: 1
+    t.string "region"
+    t.string "district"
+    t.string "city"
+    t.string "street"
+    t.string "building", limit: 10
+    t.string "flat", limit: 10
+    t.string "section", limit: 3
+    t.string "aoguid", limit: 36
+    t.string "houseguid", limit: 36
+    t.string "zipcode"
+    t.boolean "isvilage"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "diagnoses", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "klass", limit: 2

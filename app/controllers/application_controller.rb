@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
           puts @decoded.to_json()        
         rescue JWT::DecodeError => e          
           SessionList.instance.remove(header)
-          render json: { message: e.message }, status: :request_timeout       
+          #render json: { message: e.message }, status: :request_timeout       
         end
     end
 end

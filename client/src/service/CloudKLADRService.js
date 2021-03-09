@@ -1,4 +1,6 @@
 import BaseService from "./BaseService"
+import store from "../redux/store"
+import { actionPutMessage,  } from "../redux/action"
 export class CloudKLADRService extends BaseService {
  
   getItems(params, limit = "25") {
@@ -9,15 +11,18 @@ export class CloudKLADRService extends BaseService {
     }, params)
     searchStr = searchStr + "limit=" + limit
     return this.instance.post("/v1/kladr", {askstring: searchStr}, 
-    this.requestConfig).then((response) => {  
-      //console.log("response.data", response.data)    
-      const items = response.data
+    this.requestConfig).then((response) => {      
+    if (response.data.error) {
+      store.dispatch(actionPutMessage({ severity: "error", summary: "Ошибка запроса к КЛАДР", detail: response.data.error }))
+      return []
+    }
+    const items = response.data
         .filter((item) => item.id !== "Free")
         .map((item) => {
           const result = { id: item.id }
           if (item.zip) result.zip = item.zip
           if (item.contentType === "region" || item.contentType === "district") result.name = item.name + " " + item.typeShort
-          else  result.name = item.typeShort + " " + item.name
+          else result.name = item.typeShort + " " + item.name
           if (item.parents) {
             result["AOGUID"] = item.parentGuid
             result["HouseGUID"] = item.guid
@@ -49,6 +54,13 @@ export class CloudKLADRService extends BaseService {
           return result
         })
       return items
-    })
+    }).catch(error =>{
+      store.dispatch(
+        actionPutMessage({
+          severity: "error",
+          summary: "Ошибка запроса к КЛАДР",
+          detail: error.toString(),
+        })
+      )})
   }
 }

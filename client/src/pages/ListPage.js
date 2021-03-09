@@ -21,49 +21,34 @@ export default function ListPage() {
     const [city, setCity] = useState(null)
     const [filteredAddresses, setFilteredAddresses] = useState(null)
     const cloudKLADRservice = new CloudKLADRService()
-
-    const searchRegions = (event) => {      
+        
+    const showError = (detail) => {
+      this.toast.show({
+        severity: "error",
+        summary: "Ошибка ",
+        detail: detail,
+      })
+    }
+    const searchRegions = (event) => {
       const params = { contentType: "region" }
       if (event.query !== undefined && event.query.length > 0) params.query = event.query
-        cloudKLADRservice.getItems(params, "100").then((data) => {
-          //console.log(data)
-          const regions = data
-          setRegions(regions)
-        })
+      cloudKLADRservice.getItems(params, "100")
+        .then((data) => setRegions(data))
+        .catch((error) => showError(error.toString()))
     }
-    const clearCity = () => {
-      setCity(null)
-      setSelectedAddress(null)
-      setCities([])
-      setZip("")
-      setFilteredAddresses([])      
-    }
-    const clearDistrict = () => {
-      setDistrict(null)
-      clearCity()
-      setDistricts([])
-    }
-    
     const searchDistricts = (event) => {      
       const params = { contentType: "district", regionId: region.id }
-      if (event.query !== undefined && event.query.length > 0) params.query = event.query
-      //else params.query = null
-      cloudKLADRservice.getItems(params).then((data) => {
-        //console.log(data)
-        const items = data
-        setDistricts(items)
-      })
+      if (event.query !== undefined && event.query.length > 0) params.query = event.query      
+      cloudKLADRservice.getItems(params)
+        .then((data) => setDistricts(data))        
     }
     
     const searchCities = (event) => {      
       const params = { contentType: "city", regionId: region.id }
       if (district && district.id) params.districtId = district.id
       if (event.query !== undefined && event.query.length > 0) params.query = event.query
-      cloudKLADRservice.getItems(params).then((data) => {
-        //console.log(data)
-        const items = data          
-        setCities(items)
-      })
+      cloudKLADRservice.getItems(params)
+        .then((data) => setCities(data))       
     }
     
     const searchAddress = (event) => {
@@ -76,11 +61,23 @@ export default function ListPage() {
       }
       if (district && district.id) params.districtId = district.id
       if (city && city.id) params.cityId = city.id
-      cloudKLADRservice.getItems(params).then((data) => {
-        //console.log('items',data)        
-        setFilteredAddresses(data)
-      })
+      cloudKLADRservice.getItems(params)
+        .then((data) => setFilteredAddresses(data))        
     }
+
+    const clearCity = () => {
+      setCity(null)
+      setSelectedAddress(null)
+      setCities([])
+      setZip("")
+      setFilteredAddresses([])
+    }    
+    const clearDistrict = () => {
+      setDistrict(null)
+      clearCity()
+      setDistricts([])
+    }
+
     const content = (
       <div>
         <h1>Ввод адреса из облака КЛАДР</h1>

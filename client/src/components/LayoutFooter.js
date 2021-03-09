@@ -7,7 +7,7 @@ export class LayoutFooter extends Component {
             <div className="footer-logo-container">
               <span className="app-name">Медицинское свидетельство о смерти</span>
             </div>
-            <span className="copyright">© АМИАЦ - 2020</span>
+            <span className="copyright">© АМИАЦ  2020-2021</span>
           </div>
         )
     }

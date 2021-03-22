@@ -6,9 +6,9 @@ Rails.application.routes.draw do
     post '/', action: 'index'    
   end
   scope 'v1/universal_api/:model_name', controller: 'v1/universal_api' do
-    get '/', action: 'index'
+    post '/', action: 'index'
     get '/:id', action: 'show'
-    post '/', action: 'create'
+    post '/add', action: 'create'
     put '/:id', action: 'update'
     delete '/:id', action: 'destroy'
   end

@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
     protect_from_forgery with: :null_session
     def not_found
-        render json: { error: 'not_found' }, status: :not_found
+        render json: {status: 404, message: "not_found+" }
     end
     
     def authorize_request
@@ -9,13 +9,13 @@ class ApplicationController < ActionController::Base
         header = header.split(' ').last if header        
         begin          
           unless SessionList.instance.exist(header)
-            render json: { error: "unauthorized" }, status: :unauthorized          
+            render json: {status: 401, message: "Сессия не авторизована." }          
           end
           @decoded = JsonWebToken.decode(header)
-          puts @decoded.to_json()        
+          #puts @decoded.to_json()        
         rescue JWT::DecodeError => e          
           SessionList.instance.remove(header)
-          #render json: { message: e.message }, status: :request_timeout       
+          render json: {status: 401, message: "Превышен лимит времени сессии." }        
         end
     end
 end

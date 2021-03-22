@@ -20,7 +20,7 @@ class AuthenticationController < ApplicationController
     header = request.headers['Authorization']
     header = header.split(' ').last if header   
     SessionList.instance.remove(header)
-    render json: {message: 'session destroyed'}, status: :ok  
+    render json: {status: 200, message: 'Сессия штатно завершена'}
   end 
 
   private

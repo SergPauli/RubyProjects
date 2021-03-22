@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_04_063009) do
+ActiveRecord::Schema.define(version: 2021_03_19_231056) do
 
   create_table "addresses", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "state", limit: 1
@@ -59,6 +59,24 @@ ActiveRecord::Schema.define(version: 2021_03_04_063009) do
     t.index ["code"], name: "index_hospitals_on_code", unique: true
   end
 
+  create_table "nomenclatures", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.string "oid"
+    t.string "version"
+    t.string "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "null_flavors", id: :integer, limit: 2, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "CODE", limit: 5
+    t.string "NAME", limit: 100
+    t.text "DESCRIPTION"
+    t.integer "ORDER", limit: 2
+    t.integer "PARENT_ID", limit: 2
+    t.index ["PARENT_ID"], name: "fk_rails_b3aca66fa1"
+  end
+
   create_table "synonyms", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
     t.bigint "diagnosis_id"
@@ -78,4 +96,5 @@ ActiveRecord::Schema.define(version: 2021_03_04_063009) do
     t.index ["hospital_id"], name: "index_users_on_hospital_id"
   end
 
+  add_foreign_key "null_flavors", "null_flavors", column: "PARENT_ID"
 end

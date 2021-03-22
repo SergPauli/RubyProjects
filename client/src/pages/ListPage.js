@@ -3,15 +3,19 @@ import { InputText } from "primereact/inputtext"
 import { RadioButton } from "primereact/radiobutton"
 import WrappedLayout from "../components/Layout"
 import { AutoComplete } from "primereact/autocomplete"
+import { InputSwitch } from "primereact/inputswitch"
+import { Dropdown } from "primereact/dropdown"
 import "primeflex/primeflex.css"
 import { CloudKLADRService } from "../service/CloudKLADRService"
+import { UniversalService } from "../service/UniversalService"
     
 
 
 export default function ListPage() {
+    const [checked1, setChecked1] = useState(false)
     const [regions, setRegions] = useState([])
     const [districts, setDistricts] = useState([])
-    const [cities, setCities] = useState([])
+    const [cities, setCities] = useState([])    
     const [selectedAddress, setSelectedAddress] = useState(null)
     const [region, setRegion] = useState({ id: "2800000000000", name: "Амурская обл"})
     const [area, setArea] = useState({ code: "1", name: "городская" })
@@ -20,7 +24,21 @@ export default function ListPage() {
     const [district, setDistrict] = useState(null)
     const [city, setCity] = useState(null)
     const [filteredAddresses, setFilteredAddresses] = useState(null)
+    const [eReasons, setEReasons] = useState([]) 
     const cloudKLADRservice = new CloudKLADRService()
+    const uniService = new UniversalService()
+    const params = {
+      select: ["CODE", "NAME", "DESCRIPTION"],      
+      q: {},      
+    }
+    
+    uniService.index("NullFlavor", params).then((data) =>{            
+      if (eReasons.length === 0) setEReasons(data.filter((r) => "ASKU NA UNK".includes(r.CODE)))      
+    }) 
+     
+    const onReasonChange = (e) => {      
+      setArea(e.value)
+    }
         
     const showError = (detail) => {
       this.toast.show({
@@ -77,7 +95,40 @@ export default function ListPage() {
       clearCity()
       setDistricts([])
     }
-
+    const content2 = checked1 ? (
+      <div className='p-formgroup-inline p-null-flour'>
+        <div className='p-field-checkbox'>
+          <RadioButton
+            inputId='urban'
+            name='area'
+            value={area}
+            onChange={(e) => setArea({ code: "1", name: "городская" })}
+            checked={area.code === "1"}
+          />
+          <label htmlFor='urban'>городская - 1</label>
+        </div>
+        <div className='p-field-checkbox'>
+          <RadioButton
+            inputId='vilage'
+            name='area'
+            value={area}
+            onChange={(e) => setArea({ code: "2", name: "сельская" })}
+            checked={area.code === "2"}
+          />
+          <label htmlFor='vilage'>сельская - 2</label>
+        </div>
+      </div>
+    ) : (
+      <Dropdown
+        class='p-null-flour'
+        value={area}
+        options={eReasons}
+        onChange={onReasonChange}
+        optionLabel='NAME'
+        tooltip={area.DESCRIPTION}
+        placeholder='Причина'
+      />
+    )
     const content = (
       <div>
         <h1>Ввод адреса из облака КЛАДР</h1>
@@ -95,7 +146,7 @@ export default function ListPage() {
               onChange={(e) => {
                 console.log("e.value", e.value)
                 setSelectedAddress(e.value)
-                 if (e.value.zip) setZip(e.value.zip)
+                if (e.value.zip) setZip(e.value.zip)
               }}
             />
           </div>
@@ -152,33 +203,17 @@ export default function ListPage() {
               }}
             />
           </div>
-          <div className='p-field p-col-12 p-md-3'>
+          <div className='p-field p-col-12 p-md-2'>
             <label htmlFor='zip'>Индекс</label>
             <InputText id='zip' value={zip} name='zip' type='text' onChange={(e) => setZip(e.value)} />
           </div>
-          <div className='p-field p-col-12 p-md-3'>
-            <label htmlFor='urban'>Местность</label>
-            <div className='p-formgroup-inline'>
-              <div className='p-field-checkbox'>
-                <RadioButton
-                  inputId='urban'
-                  name='area'
-                  value={area}
-                  onChange={(e) => setArea({ code: "1", name: "городская" })}
-                  checked={area.code === "1"}
-                />
-                <label htmlFor='urban'>городская - 1</label>
-              </div>
-              <div className='p-field-checkbox'>
-                <RadioButton
-                  inputId='vilage'
-                  name='area'
-                  value={area}
-                  onChange={(e) => setArea({ code: "2", name: "сельская" })}
-                  checked={area.code === "2"}
-                />
-                <label htmlFor='vilage'>сельская - 2</label>
-              </div>
+          <div className='p-field p-col-12 p-md-4 p-grid'>
+            <div className='p-field p-col-9 p-md-10'>
+              <label htmlFor='point'>Местность</label>
+              {content2}
+            </div>
+            <div className='p-col-3 p-md-2 p-null-flour'>
+              <InputSwitch checked={checked1} onChange={(e) => setChecked1(e.value)} />
             </div>
           </div>
         </div>

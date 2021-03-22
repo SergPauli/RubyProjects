@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  PARENT_ID: 1
+  CODE: MyString
+  NAME: MyString
+  DESCRIPTION: MyString
+  ORDER: 1
+
+two:
+  PARENT_ID: 1
+  CODE: MyString
+  NAME: MyString
+  DESCRIPTION: MyString
+  ORDER: 1

@@ -14,15 +14,25 @@ class LoginPage extends Component {
     super(props)
     this.state = { username: "", password: "" }
     this.showError = this.showError.bind(this)
-    this.authService = new AuthService()    
+    this.authService = new AuthService()
     this.login = this.login.bind(this)
   }
   componentDidMount() {
     document.title = "МедСС: Вход в систему"
-    const { actionClearStatus, message } = this.props       
+    const { actionClearStatus, message } = this.props
+    //sconsole.log('message',message)
     if (message) {
       this.toast.show(message)
       actionClearStatus()
+    }
+  }
+  componentDidUpdate(prevProps) {
+    if (prevProps.message !== this.props.message) {      
+      const { actionClearStatus, message } = this.props      
+      if (message) {
+        this.toast.show(message)
+        actionClearStatus()
+      }
     }
   }
   showError(detail) {
@@ -47,8 +57,8 @@ class LoginPage extends Component {
         actionSetLoading()
       })
       .catch((error) => {
-        if (error.message.includes("406")) this.showError("Доступ запрещен")     
-        else this.showError( error.message )                   
+        if (error.message.includes("406")) this.showError("Доступ запрещен")
+        else this.showError(error.message)
         actionSetLoading()
       })
   }
@@ -84,22 +94,9 @@ class LoginPage extends Component {
                 <span className='p-button-label p-c'>ВОЙТИ</span>
               </button>
             </div>
-            <div
-              className='p-progress-spinner login-form'
-              role='alert'
-              aria-busy='true'
-              style={{ display: isLoading ? "" : "none" }}
-            >
-              <svg className='p-progress-spinner-svg' viewBox='25 25 50 50' style={{ animationDuration: "2s;" }}>
-                <circle
-                  className='p-progress-spinner-circle'
-                  cx='50'
-                  cy='50'
-                  r='20'
-                  fill='none'
-                  stroke-width='2'
-                  stroke-miterlimit='10'
-                ></circle>
+            <div className='p-progress-spinner login-form' role='alert' aria-busy='true' style={{ display: isLoading ? "" : "none" }}>
+              <svg className='p-progress-spinner-svg' viewBox='25 25 50 50' style={{ animationDuration: "2s" }}>
+                <circle className='p-progress-spinner-circle' cx='50' cy='50' r='20' fill='none' strokeWidth='2' strokeMiterlimit='10'></circle>
               </svg>
             </div>
             <p>

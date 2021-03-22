@@ -5,7 +5,8 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-require("./db/seeds/h1s")
-require("./db/seeds/diagnoses")
-require("./db/seeds/hospitals")
-require("./db/seeds/users")
+#require("./db/seeds/h1s")
+#require("./db/seeds/diagnoses")
+#require("./db/seeds/hospitals")
+#require("./db/seeds/users")
+require("./db/seeds/nomenclatures")

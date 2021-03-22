@@ -1,0 +1,2 @@
+class Nomenclature < ApplicationRecord
+end

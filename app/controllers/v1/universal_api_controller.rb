@@ -19,40 +19,39 @@ def index
       else
         resultes_arr.push r.as_json include: get_includes_model 
       end           
-    end
-    render json: resultes_arr    
+    end    
+    render json: {status: 200, data: resultes_arr}    
   else
     @res = @res.count  if params[:count]     
-    render json: @res  
+    render json: {status: 200, data: @res}  
   end     
 end
 
-def show
+def show       
   select_list = permitted_select_values
   @res =  @model_class.select(select_list).find(params[@model_class.primary_key.to_sym]) if select_list      
-  render json: @res
+  puts "er"
+  render json: {status: 200, data: @res}
 end
-
 def create
   if @res = @model_class.create(permitted_params)
-    render json: @res
+   render json: {status: 200, data: @res} 
   else
-    invalid_resource!(@res)
+   invalid_resource!(@res)
   end
 end
-
-def update
-  if @res.update_attributes(permitted_params)
-    render json: @res
+def update      
+  if @res.update(permitted_params)
+    render json: {status: 200, data: @res}
   else
     invalid_resource!(@res)
   end
 end
 
 def destroy
-    @res.destroy
+   @res.destroy
   raise @res.errors[:base].to_s unless @res.errors[:base].empty?
-    render json: { success: true }, status: 204
+   render json: { success: true }, status: 204
 end
     
   protected
@@ -78,8 +77,9 @@ end
   end
       
   def permitted_params
-    nested  = params[:permitted].find {|key| key.include? "_attributes"}    
-    permitted =  get_permitted_names.concat(@model_class.nested_attributes) if nested     
+    nested  = params[:permitted].find {|key| key.include? "_attributes"}  
+    permitted =  get_permitted_names
+    permitted =  permitted.concat(@model_class.nested_attributes) if nested     
     params.permit(permitted)
   end
 

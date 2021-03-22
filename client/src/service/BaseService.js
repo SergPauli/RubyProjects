@@ -1,6 +1,6 @@
 import axios from "axios"
 import store from "../redux/store"
-import { actionLogout, actionPutMessage, actionSetLoading } from "../redux/action"
+import { actionLogout, actionPutMessage } from "../redux/action"
 export default class BaseService {
   requestConfig = {
     baseURL: "http://localhost:3000/",
@@ -22,6 +22,17 @@ export default class BaseService {
       function (response) {
         // Any status code that lie within the range of 2xx cause this function to trigger
         // Do something with response data
+        if (response.data.status === 401) {
+         store.dispatch(actionLogout(token))      
+         store.dispatch(
+           actionPutMessage({
+             severity: "error",
+             summary: "Доступ запрещен:",
+             detail: response.data.message + " Необходимо выполнить вход в систему",
+           })
+         )
+         response.data.message = false
+        }
         return response
       },
       function (error) {
@@ -29,16 +40,17 @@ export default class BaseService {
         // Do something with response error
         return new Promise(function (resolve, reject) {
           if (error.message.includes("401") && error.config && !error.config.__isRetryRequest) {
-             store.dispatch(
-               actionPutMessage({
-                 severity: "error",
-                 summary: "Доступ запрещен: 401",
-                 detail: "Необходимо выполнить вход в систему",
-               })
-             )
-             store.dispatch(actionLogout(token))
-             //store.dispatch(actionSetLoading())
-          } throw error
+            store.dispatch(
+              actionPutMessage({
+                severity: "error",
+                summary: "Доступ запрещен: 401",
+                detail: "Необходимо выполнить вход в систему",
+              })
+            )
+            store.dispatch(actionLogout(token))
+            //store.dispatch(actionSetLoading())
+          }
+           throw error
         })
       }
     )

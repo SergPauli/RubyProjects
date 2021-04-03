@@ -19,9 +19,22 @@
   box-sizing: border-box;
 }
 
-.p-null-flour {
-  background-color: #eff2fd;
-  border-radius: 0.4rem;
+.p-field .p-inputgroup .p-checkbox {
+  height: 16px;
+}
+
+.p-field .p-inputgroup .p-checkbox .p-checkbox-box {
+  width: 19px;
+  height: 19px;
+}
+
+.p-field .p-inputgroup>label {
+  margin-bottom: 0.5rem;
+  margin-left: 0.3rem;
+}
+
+.p-field .p-formgroup-inline {
+  padding-top: 0.5rem;
 }
 
 .p-component {

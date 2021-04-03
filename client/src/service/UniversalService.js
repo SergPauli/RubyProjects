@@ -5,12 +5,17 @@ export class UniversalService extends BaseService {
   index(model, params, fromLocalStore = false) {
     if (fromLocalStore) {
       const find = localStorage.getItem(model)
-      if (find) return find
+      if (find && find.length > 0 ) {                  
+        return new Promise(function (resolve, reject) {          
+          resolve(JSON.parse(find))
+        })
+      }
     }      
     return this.instance.post(baseUrl + model, params, this.requestConfig).then((response) => {
       //console.log('response ', response)
       if (response.data.status === 200){
-        localStorage.setItem(model, response.data.data)
+        if (fromLocalStore) 
+        localStorage.setItem(model, JSON.stringify(response.data.data))
         return response.data.data
       } 
       if (response.data.message) throw new Error(response.data.message)

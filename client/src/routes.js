@@ -12,6 +12,7 @@ import WrappedMainPage from "./pages/MainPage";
 import { useMediaQuery } from "react-responsive"
 import { bindActionCreators } from "redux";
 import { actionSetMediaScrine } from "./redux/action";
+import AddressPart from "./pages/certificateForm/AddressPart";
 
 const Routes = ({ isAuthenicated, actionSetMediaScrine }) => {
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 991px)" })
@@ -20,13 +21,29 @@ const Routes = ({ isAuthenicated, actionSetMediaScrine }) => {
     return (
       <Router>
         <Switch>
-          <Route path="/main" exact>
-            <WrappedMainPage  />
+          <Route path='/main' exact>
+            <WrappedMainPage />
           </Route>
-          <Route path="/list" exact>
-            <ListPage />
+          <Route path='/list' exact>
+            <ListPage address={{ region: { id: "2800000000000", name: "Амурская область" }, building: { name: "" }, zip: "", flat: "" }} />
           </Route>
-          <Redirect to="/main" />
+          <Route path='/p5p6' exact>
+            <AddressPart
+              title='Ввод: пункты 5,6'
+              isDeadPlace={false}
+              address={{ region: { id: "2800000000000", name: "Амурская область" }, building: { name: "" }, zip: "", flat: "" }}
+              area={null}
+            />
+          </Route>
+          <Route path='/p7p8' exact>
+            <AddressPart
+              title='Ввод: пункты 7,8'
+              isDeadPlace={true}
+              address={{ region: { id: "2800000000000", name: "Амурская область" }, building: { name: "" }, zip: "", flat: "" }}
+              area={null}
+            />
+          </Route>
+          <Redirect to='/main' />
         </Switch>
       </Router>
     )

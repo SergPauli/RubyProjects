@@ -49,7 +49,21 @@ puts "номенклатура 1.2.643.5.1.13.13.99.2.48 обработана" i
 res = Nomenclature.find_or_create_by!(name: "CDAField", oid: "1.2.643.5.1.13.13.99.2.166", description: "Кодируемые поля CDA документов")
 puts "номенклатура 1.2.643.5.1.13.13.99.2.166 обработана" if res
 res = Nomenclature.find_or_create_by!(name: "Region", oid: "1.2.643.5.1.13.13.99.2.206", description: "Субъекты Российской Федерации")
-puts "номенклатура 1.2.643.5.1.13.13.99.2.206 обработана" if res
+if res 
+    r = RestClient.get url+"&identifier=1.2.643.5.1.13.13.99.2.206", headers
+    data = JSON.parse(r)
+    if (data['result'] = "OK")
+        passed = 0
+        data['list'].each do |record|
+          record.each { |k| k['column'] = mappings[k['column']] if mappings[k['column']] }        
+          params = {}
+          record.each { |field|  params = params.merge(field['column'] => field['value']) if (field['column']!="SYNONYM")}
+          res = Region.find_or_create_by! params
+          passed+=1 if res    
+        end    
+        puts "номенклатура 1.2.643.5.1.13.13.99.2.206 обработана: #{passed} из #{data['total']}" if res 
+    end 
+end
 res = Nomenclature.find_or_create_by!(name: "CDATemplate", oid: "1.2.643.5.1.13.13.99.2.267", description: "Шаблоны CDA документов")
 puts "номенклатура 1.2.643.5.1.13.13.99.2.267 обработана" if res
 res = Nomenclature.find_or_create_by!(name: "Privacy", oid: "1.2.643.5.1.13.13.99.2.285", description: "Уровень конфиденциальности медицинского документа", version: "1.1")

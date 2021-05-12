@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  SUBJECT: MyString
+  CODE_OKATO: MyString
+  STATUS: MyString
+  OKATO_5: MyString
+  CODE_FNS: MyString
+  FED: 
+
+two:
+  SUBJECT: MyString
+  CODE_OKATO: MyString
+  STATUS: MyString
+  OKATO_5: MyString
+  CODE_FNS: MyString
+  FED: 

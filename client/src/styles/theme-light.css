@@ -19,6 +19,15 @@
   box-sizing: border-box;
 }
 
+span.paragraph {
+  color: #d28819;
+  font-weight: bold;
+}
+
+label.paragraph {
+  font-weight: bold;
+}
+
 .p-field .p-inputgroup .p-checkbox {
   height: 16px;
 }

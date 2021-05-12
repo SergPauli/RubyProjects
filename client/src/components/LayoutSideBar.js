@@ -55,6 +55,32 @@ export class LayoutSideBar extends Component {
                 </li>
               </ul>
             </li>
+            <li className='layout-root-menuitem' role='menuitem'>
+              <button type='button' className='p-ripple p-link'>
+                <i className='layout-menuitem-icon pi pi-fw pi-id-card'></i>
+                <span className='layout-menuitem-text'>Ввод</span>
+                <i className='pi pi-fw pi-angle-down layout-submenu-toggler'></i>
+              </button>
+              <div className='layout-root-menuitem'>
+                <div className='layout-menuitem-root-text' style={{ textTransform: "uppercase" }}>
+                  Ввод
+                </div>
+              </div>
+              <ul className='layout-menu' role='menu'>
+                <li className='' role='menuitem'>
+                  <a className='p-ripple active-route' href='/p5p6' aria-current='page'>
+                    <i className='layout-menuitem-icon pi pi-fw pi-check-square'></i>
+                    <span className='layout-menuitem-text'>пункты 5,6</span>
+                  </a>
+                </li>
+                <li className='' role='menuitem'>
+                  <a className='p-ripple active-route' href='/p7p8' aria-current='page'>
+                    <i className='layout-menuitem-icon pi pi-fw pi-check-square'></i>
+                    <span className='layout-menuitem-text'>пункты 7,8</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
           </ul>
         </div>
       </div>

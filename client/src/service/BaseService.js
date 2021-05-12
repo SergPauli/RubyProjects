@@ -14,7 +14,7 @@ export default class BaseService {
     },
   }
   instance = axios.create(this.requestConfig)
-  constructor() {    
+  constructor() {      
     const state = store.getState()  
     const token = state.auth? state.auth.token : null
     if (token) this.requestConfig.headers.common["Authorization"] = token

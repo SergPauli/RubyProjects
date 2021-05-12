@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_19_231056) do
+ActiveRecord::Schema.define(version: 2021_04_20_133527) do
 
   create_table "addresses", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "state", limit: 1
@@ -75,6 +75,17 @@ ActiveRecord::Schema.define(version: 2021_03_19_231056) do
     t.integer "ORDER", limit: 2
     t.integer "PARENT_ID", limit: 2
     t.index ["PARENT_ID"], name: "fk_rails_b3aca66fa1"
+  end
+
+  create_table "regions", id: :integer, limit: 2, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "SUBJECT"
+    t.string "CODE_OKATO", limit: 3
+    t.string "STATUS"
+    t.string "OKATO_5", limit: 10
+    t.string "CODE_FNS", limit: 2
+    t.integer "FED", limit: 2
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "synonyms", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
